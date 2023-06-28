@@ -1,16 +1,26 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import express from 'express';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import querystring from 'querystring';
-import cors from 'cors'
-const app = express();
-// const port = 3000;
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
+import { fileURLToPath } from 'url';
+dotenv.config();
 
-app.use(cors())
+const app = express();
+
+app.use(cors());
 app.use(bodyParser.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const privateKeyPath = path.resolve(__dirname, 'private.pem');
+const certificatePath = path.resolve(__dirname, 'fullchain.crt');
+const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+const certificate = fs.readFileSync(certificatePath, 'utf8');
 app.get('/', (req, res) => {
   res.status(200).send('OK');
 });
@@ -18,16 +28,16 @@ app.get('/', (req, res) => {
 app.post('/data', (req, res) => {
   const jsonData = req.body;
 
-  // 處理json資料
+  // 处理json数据
   console.log(jsonData);
 
   const message = `
     主旨: ${req.body.subject}
-    聯絡姓名: ${req.body.name}
-    連絡電話: ${req.body.phone}
-    聯絡信箱: ${req.body.email}
-    問題內容: ${req.body.content}
-  `; // line notify message
+    联络姓名: ${req.body.name}
+    联络电话: ${req.body.phone}
+    联络邮箱: ${req.body.email}
+    问题内容: ${req.body.content}
+  `; // Line Notify message
 
   const accessToken = process.env.TOKEN; // Line Notify Token
   const formData = querystring.stringify({ message });
@@ -41,16 +51,21 @@ app.post('/data', (req, res) => {
     })
     .then((response) => {
       console.log(response.data);
-      res.send('通知已發送！');
+      res.send('通知已发送！');
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send('錯誤500');
+      res.status(500).send('错误500');
     });
-
-  return; // 結束請求
 });
 
-app.listen(3000, () => {
-  console.log(`port: 3000`);
+const httpsOptions = {
+  key: privateKey,
+  cert: certificate,
+};
+
+const server = https.createServer(httpsOptions, app);
+
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });

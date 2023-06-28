@@ -1,2 +1,4 @@
 node_modules
 .env
+fullchain.crt
+private.pem
