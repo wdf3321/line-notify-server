@@ -10,11 +10,12 @@ const app = express();
 
 app.use(cors())
 app.use(bodyParser.json());
-// healthcheck
+
 app.get('/', (req, res) => {
   res.status(200).send('OK');
 });
 
+app.post('/data', (req, res) => {
   const jsonData = req.body;
 
   // 處理json資料
