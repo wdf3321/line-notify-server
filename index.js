@@ -32,11 +32,11 @@ app.post('/data', (req, res) => {
   console.log(jsonData);
 
   const message = `
-    主旨: ${req.body.subject}
-    联络姓名: ${req.body.name}
-    联络电话: ${req.body.phone}
-    联络邮箱: ${req.body.email}
-    问题内容: ${req.body.content}
+    主題: ${req.body.subject}
+    聯絡姓名: ${req.body.name}
+    連絡電話: ${req.body.phone}
+    連絡信箱: ${req.body.email}
+    內容: ${req.body.content}
   `; // Line Notify message
 
   const accessToken = process.env.TOKEN; // Line Notify Token
@@ -51,11 +51,10 @@ app.post('/data', (req, res) => {
     })
     .then((response) => {
       console.log(response.data);
-      res.send('通知已发送！');
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send('错误500');
+      res.status(500).send('500');
     });
 });
 
