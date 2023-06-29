@@ -12,7 +12,7 @@ COPY fullchain.crt /app
 COPY package*.json ./
 
 # 安装项目依赖
-RUN npm ci --only=production
+RUN npm i
 
 # 将整个项目目录复制到工作目录
 COPY . .

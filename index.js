@@ -41,7 +41,7 @@ app.post('/data', async (req, res) => {
     內容: ${req.body.content}
   `; // Line Notify message
   const transporter = nodemailer.createTransport({
-    host: 'mail.xlinfoods.com',
+    host: 'xlinfoods.synology.me',
     port: 25,
     auth: {
       user: process.env.AUTHID,
@@ -49,7 +49,7 @@ app.post('/data', async (req, res) => {
     },
   });
   transporter.sendMail({
-    from: 'inbox@dtstw.com',
+    from: 'dtsmkt@dtstw.com',
     to: 'dtsmkt@dtstw.com',
     subject: 'DTS-聯絡我們',
     html: `<p>${message}</p>`,
