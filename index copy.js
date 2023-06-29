@@ -8,8 +8,6 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import { fileURLToPath } from 'url';
-import nodemailer from 'nodemailer';
-
 dotenv.config();
 
 const app = express();
@@ -27,7 +25,7 @@ app.get('/', (req, res) => {
   res.status(200).send('OK');
 });
 
-app.post('/data', async (req, res) => {
+app.post('/data', (req, res) => {
   const jsonData = req.body;
 
   // 处理json数据
@@ -40,27 +38,25 @@ app.post('/data', async (req, res) => {
     連絡信箱: ${req.body.email}
     內容: ${req.body.content}
   `; // Line Notify message
-  const transporter = nodemailer.createTransport({
-    host: 'mail.xlinfoods.com',
-    port: 25,
-    auth: {
-      user: process.env.AUTHID,
-      pass: process.env.AUTHPW,
-    },
-  });
-  transporter.sendMail({
-    from: 'inbox@dtstw.com',
-    to: 'dtsmkt@dtstw.com',
-    subject: 'DTS-聯絡我們',
-    html: `<p>${message}</p>`,
-  }).then(info => {
-    console.log('Message sent');
-    res.status(200).send('Message sent');
-  }).catch(console.error);
+
+  const accessToken = process.env.TOKEN; // Line Notify Token
+  const formData = querystring.stringify({ message });
+
+  axios
+    .post('https://notify-api.line.me/api/notify', formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('500');
+    });
 });
-
-
-
 
 const httpsOptions = {
   key: privateKey,
