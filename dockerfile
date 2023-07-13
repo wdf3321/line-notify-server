@@ -5,8 +5,8 @@ FROM node:18-alpine as develop-stage
 WORKDIR /app
 
 # 将证书文件复制到工作目录中
-COPY private.pem /app
-COPY fullchain.crt /app
+# COPY private.pem /app
+# COPY fullchain.crt /app
 
 # 将 package.json 和 package-lock.json（如果存在）复制到工作目录
 COPY package*.json ./
