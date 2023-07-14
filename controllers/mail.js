@@ -25,7 +25,7 @@ export const sentdtstw = async (req, res) => {
   transporter.sendMail({
     from: 'dtsmkt@dtstw.com',
     to: 'dtsmkt@dtstw.com',
-    subject: 'DTS-聯絡我們',
+    subject: 'DTS-用戶來信',
     html: `<p>${message}</p>`,
   })
     .then(info => {
@@ -53,15 +53,15 @@ export const sentwater = async (req, res) => {
     host: 'xlinfoods.synology.me',
     port: 25,
     auth: {
-      user: process.env.DTSAUTHID,
-      pass: process.env.DTSAUTHPW,
+      user: process.env.WATERID,
+      pass: process.env.WATERPW,
     },
   });
 
   transporter.sendMail({
-    from: 'dtsmkt@dtstw.com',
-    to: 'dtsmkt@dtstw.com',
-    subject: 'DTS-聯絡我們',
+    from: 'service@springwater.tw',
+    to: 'service@springwater.tw',
+    subject: 'SPRINGWATER-用戶來信',
     html: `<p>${message}</p>`,
   })
     .then(info => {
