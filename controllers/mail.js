@@ -125,14 +125,14 @@ export const sentshanghui = async (req, res) => {
     host: 'xlinfoods.synology.me',
     port: 25,
     auth: {
-      user: process.env.BINGID,
-      pass: process.env.BINGPW,
+      user: process.env.DTSAUTHID,
+      pass: process.env.DTSAUTHPW,
     },
   });
 
   transporter.sendMail({
-    from: 'chinabingcs@xlinfoods.com',
-    to: 'chinabingcs@xlinfoods.com',
+    from: 'dtsmkt@xlinfoods.com',
+    to: 'dtsmkt@xlinfoods.com',
     subject: 'SHANGHUI-用戶來信',
     html: `<h4>${message}</h4>`,
   })
